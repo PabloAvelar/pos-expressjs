@@ -13,23 +13,40 @@ exports.get_clients = [
 ]
 
 exports.post_client = [
-    async function (req, res, next) {
-        console.log(req.body);
 
-        next();
-    },
-
+    // Middleware
+    auth,
+    // Verificaciones
     body('*')
         .trim()
         .escape(),
 
-    async function (req, res){
+    body('contact')
+        .toInt()
+        .isInt()
+        .withMessage("invalid contact number"),
+
+    body('membership_number')
+        .toInt()
+        .isInt()
+        .withMessage("invalid membership number"),
+
+    async function (req, res) {
         const errors = validationResult(req).array();
 
-        if (errors.length > 0){
-            res.status(400).json(errors);   
-            return;
-        }
+        if (errors.length > 0) return res.status(400).json({message: 'errors!', errors});
+
+        const { customer_name, address, contact, membership_number } = matchedData(req);
+
+        const newCustomer = await Customer.create({
+            customer_name,
+            address,
+            contact,
+            membership_number
+        })
+
+
+        res.json({ message: `new customer created. id: ${newCustomer.customer_id}` });
 
 
     }

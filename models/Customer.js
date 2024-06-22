@@ -7,6 +7,7 @@ Customer.init({
     // Table
     customer_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -35,7 +36,7 @@ Customer.init({
         sequelize,
         modelName: 'Customer',
         freezeTableName: true,
-        timestamps: false
+        timestamps: false,
     }
 
 );
