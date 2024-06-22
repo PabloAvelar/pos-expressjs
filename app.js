@@ -9,15 +9,18 @@ const reportsRouter = require('./routes/reports');
 const salesRouter = require('./routes/sales');
 const statisticsRouter = require('./routes/statistics');
 const suppliersRouter = require('./routes/suppliers');
+const loginRouter = require('./routes/login');
 
 const app = express();
 
 app.use(morgan('dev'));
-app.use(express.json())
+app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended: false}));
 
+
 // Enrutamiento
+app.use("/api/login", loginRouter);
 app.use('/api/clients', clientsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/reports', reportsRouter);
