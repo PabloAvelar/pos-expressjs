@@ -3,6 +3,9 @@ const app = require('../app');
 const userToken = require('./userToken');
 const { faker } = require('@faker-js/faker');
 
+let test_product_id;
+let test_supplier_id;
+
 describe('Products API', () => {
     describe("GET /products", () => {
         test('should respond with a list of all products from the database', async () => {
@@ -11,13 +14,17 @@ describe('Products API', () => {
                 .set("Authorization", `Bearer ${userToken}`);
             expect(response.status).toBe(200);
             expect(response.body).toBeInstanceOf(Array);
+
+            // saving one record to be tested in the following cases
+            response_record = response.body;
+            test_product_id = response_record[0].customer_id;
+            test_supplier_id = response_record[0].supplier_id;
         })
 
     });
 
     describe("POST /products", () => {
         test('should insert a new product record to the database', async () => {
-            const SUPPLIER_ID = 13;
 
             const payload = {
                 product_code: faker.commerce.isbn(),
@@ -25,7 +32,7 @@ describe('Products API', () => {
                 product_name: faker.commerce.productName(),
                 o_price: faker.commerce.price({ min: 100, max: 500 }),
                 price: faker.commerce.price({ min: 600, max: 13000 }),
-                supplier_id: SUPPLIER_ID,
+                supplier_id: test_supplier_id,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 date_arrival: faker.date.future(),
@@ -47,17 +54,15 @@ describe('Products API', () => {
 
     describe("PUT /products", () => {
         test('should update a product record from the database', async () => {
-            const SUPPLIER_ID = 13;
-            const PRODUCT_ID = 65
 
             const payload = {
-                product_id: PRODUCT_ID,
+                product_id: test_product_id,
                 product_code: faker.commerce.isbn(),
                 gen_name: faker.commerce.product(),
                 product_name: faker.commerce.productName(),
                 o_price: faker.commerce.price({ min: 100, max: 500 }),
                 price: faker.commerce.price({ min: 600, max: 13000 }),
-                supplier_id: SUPPLIER_ID,
+                supplier_id: test_supplier_id,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 date_arrival: faker.date.future(),
@@ -79,11 +84,10 @@ describe('Products API', () => {
 
     describe("DELETE /products", () => {
         test('should delete a product record from the database', async () => {
-            const PRODUCT_ID = 36;
 
             const response = await request(app)
                 // Deletes the record with the ID 36
-                .delete(`/api/products/${PRODUCT_ID}`)
+                .delete(`/api/products/${test_product_id}`)
 
                 // Headers
                 .set('Authorization', `Bearer ${userToken}`)
