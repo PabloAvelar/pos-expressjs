@@ -22,9 +22,8 @@ exports.post_client = [
         .escape(),
 
     body('contact')
-        .toInt()
-        .isInt()
-        .withMessage("invalid contact number"),
+        .isMobilePhone()
+        .withMessage("invalid phone number"),
 
     body('membership_number')
         .toInt()
@@ -77,9 +76,8 @@ exports.put_client = [
         .withMessage("Invalid query for id customer"),
 
     body('contact')
-        .toInt()
-        .isInt()
-        .withMessage("invalid contact number"),
+        .isMobilePhone()
+        .withMessage("invalid phone number"),
 
     body('membership_number')
         .toInt()

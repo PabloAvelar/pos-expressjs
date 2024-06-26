@@ -34,10 +34,6 @@ Products.init({
         type: DataTypes.STRING
     },
 
-    profit: {
-        type: DataTypes.STRING
-    },
-
     supplier_id: {
         type: DataTypes.INTEGER,
         allowNull: false

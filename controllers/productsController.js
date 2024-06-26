@@ -22,37 +22,61 @@ exports.post_product = [
         .trim()
         .escape(),
 
-    body('supplier_id')
+    body('product_code')
+        .isAlphanumeric()
+        .withMessage("invalid product code"),
+
+    body('gen_name') // generic name
+        .isAlphanumeric()
+        .withMessage("invalid generic name"),
+
+    body('product_name')
+        .isAlphanumeric()
+        .withMessage("invalid product name"),
+
+    body('o_price') // original price
+        .isNumeric()
+        .withMessage("invalid original price"),
+
+    body('price') // price to sell
+        .isNumeric()
+        .withMessage("invalid price"),
+
+    body('supplier_id') // foreign key for Supplier model
         .toInt()
         .isInt()
-        .withMessage("Invalid supplier id")
+        .withMessage("invalid supplier_id")
         .custom(async value => {
             try {
-                const supplier = Suppliers.findOne({ where: { supplier_id: value } })
-                if (supplier == null){
-                    Promise.reject("Couldn't find supplier id")
+                const user = await Suppliers.findOne({ where: { supplier_id: value } })
+                if (user === null) {
+                    return Promise.reject("Supplier ID does not exist")
                 }
-            } catch (error) {
-                console.error(error);
-                Promise.reject("Error finding supplier id");
+            } catch (e) {
+                console.error(e);
+                return Promise.reject("Couldn't find supplier")
             }
         })
-        .withMessage("Supplier id does not exist"),
+        .withMessage("Supplier not found"),
 
     body('qty')
         .toInt()
         .isInt()
         .withMessage("invalid qty number"),
 
-        body('onhand_qty')
+    body('onhand_qty')
         .toInt()
         .isInt()
         .withMessage("invalid onhand_qty"),
 
-        body('qty_sold')
+    body('qty_sold')
         .toInt()
         .isInt()
         .withMessage("invalid qty_sold"),
+
+    body('date_arrival')
+        .isAlphanumeric()
+        .withMessage("invalid date arrival"),
 
     async function (req, res) {
         const errors = validationResult(req).array();
@@ -68,7 +92,7 @@ exports.post_product = [
     }
 ]
 
-exports.put_client = [
+exports.put_product = [
 
     // Middleware
     auth,
@@ -77,50 +101,96 @@ exports.put_client = [
         .trim()
         .escape(),
 
-    body('customer_id')
+    body('product_id')
         .toInt()
         .isInt()
         .withMessage("invalid id")
         .custom(async value => {
             try {
-                const user = await Product.findOne({ where: { customer_id: value } })
+                const user = await Product.findOne({ where: { product_id: value } })
                 if (user === null) {
                     return Promise.reject("Product ID does not exist")
                 }
             } catch (e) {
                 console.error(e);
-                return Promise.reject("Couldn't find customer")
+                return Promise.reject("Couldn't find product")
             }
         })
-        .withMessage("Invalid query for id customer"),
+        .withMessage("Invalid query for id product"),
 
-    body('contact')
+    body('product_code')
+        .isAlphanumeric()
+        .withMessage("invalid product code"),
+
+    body('gen_name') // generic name
+        .isAlphanumeric()
+        .withMessage("invalid generic name"),
+
+    body('product_name')
+        .isAlphanumeric()
+        .withMessage("invalid product name"),
+
+    body('o_price') // original price
+        .isNumeric()
+        .withMessage("invalid original price"),
+
+    body('price') // price to sell
+        .isNumeric()
+        .withMessage("invalid price"),
+
+    body('supplier_id') // foreign key for Supplier model
         .toInt()
         .isInt()
-        .withMessage("invalid contact number"),
+        .withMessage("invalid supplier_id")
+        .custom(async value => {
+            try {
+                const user = await Suppliers.findOne({ where: { supplier_id: value } })
+                if (user === null) {
+                    return Promise.reject("Supplier ID does not exist")
+                }
+            } catch (e) {
+                console.error(e);
+                return Promise.reject("Couldn't find supplier")
+            }
+        })
+        .withMessage("Supplier not found"),
 
-    body('membership_number')
+    body('qty')
         .toInt()
         .isInt()
-        .withMessage("invalid membership number"),
+        .withMessage("invalid qty number"),
+
+    body('onhand_qty')
+        .toInt()
+        .isInt()
+        .withMessage("invalid onhand_qty"),
+
+    body('qty_sold')
+        .toInt()
+        .isInt()
+        .withMessage("invalid qty_sold"),
+
+    body('date_arrival')
+        .isAlphanumeric()
+        .withMessage("invalid date arrival"),
 
     async function (req, res) {
         const errors = validationResult(req).array();
 
         if (errors.length > 0) return res.status(400).json({ message: 'errors!', errors });
 
-        const { customer_id, ...updateData } = req.body;
+        const { product_id, ...updateData } = req.body;
 
         await Product.update(updateData, {
-            where: { customer_id }
+            where: { product_id }
         })
 
-        res.json({ message: `customer updated with id: ${customer_id}` });
+        res.json({ message: `product updated with id: ${product_id}` });
 
     }
 ]
 
-exports.delete_client = [
+exports.delete_product = [
     auth,
     body("*")
         .trim()
@@ -131,12 +201,12 @@ exports.delete_client = [
 
         if (errors.length > 0) return res.status(400).json({ message: 'errors!', errors });
 
-        const { customer_id } = req.params;
+        const { product_id } = req.params;
 
         await Product.destroy({
-            where: { customer_id }
+            where: { product_id }
         })
 
-        res.json({ message: `customer deleted with id: ${customer_id}` });
+        res.json({ message: `customer deleted with id: ${product_id}` });
     }
 ]
