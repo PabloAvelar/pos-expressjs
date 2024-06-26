@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../app');
 const userToken = require('./userToken');
 const { faker } = require('@faker-js/faker');
+const moment = require('moment');
 
 let test_product_id;
 let test_supplier_id;
@@ -12,13 +13,13 @@ describe('Products API', () => {
             const response = await request(app)
                 .get('/api/products')
                 .set("Authorization", `Bearer ${userToken}`);
+            // saving one record to be tested in the following cases
+            response_record = response.body;
+            test_product_id = response_record[0].product_id;
+            test_supplier_id = response_record[0].supplier_id;
             expect(response.status).toBe(200);
             expect(response.body).toBeInstanceOf(Array);
 
-            // saving one record to be tested in the following cases
-            response_record = response.body;
-            test_product_id = response_record[0].customer_id;
-            test_supplier_id = response_record[0].supplier_id;
         })
 
     });
@@ -35,7 +36,7 @@ describe('Products API', () => {
                 supplier_id: test_supplier_id,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
-                date_arrival: faker.date.future(),
+                date_arrival: moment(faker.date.future()).format("YYYY-MM-DD"),
                 onhand_qty: faker.helpers.rangeToNumber({ min: 10, max: 90 })
             }
             const response = await request(app)
@@ -48,6 +49,8 @@ describe('Products API', () => {
 
                 .send(payload);
 
+            console.log(payload);
+            console.log(response.body);
             expect(response.status).toBe(200);
         })
     });
@@ -65,11 +68,11 @@ describe('Products API', () => {
                 supplier_id: test_supplier_id,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
-                date_arrival: faker.date.future(),
+                date_arrival: moment(faker.date.future()).format("YYYY-MM-DD"),
                 onhand_qty: faker.helpers.rangeToNumber({ min: 10, max: 90 })
             }
             const response = await request(app)
-                .post('/api/products')
+                .put('/api/products')
 
                 // Headers
                 .set('Authorization', `Bearer ${userToken}`)
@@ -77,7 +80,8 @@ describe('Products API', () => {
                 .set('Accept', `application/json`)
 
                 .send(payload);
-
+            console.log(payload)
+            console.log(response.body)
             expect(response.status).toBe(200);
         })
     });

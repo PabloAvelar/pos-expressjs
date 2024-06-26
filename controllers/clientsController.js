@@ -16,16 +16,16 @@ exports.post_client = [
 
     // Middleware
     auth,
-    // Verificaciones
-    body('*')
-        .trim()
-        .escape(),
 
     body('contact')
+        .trim()
+        .escape()
         .isMobilePhone()
         .withMessage("invalid phone number"),
 
     body('membership_number')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid membership number"),
@@ -53,15 +53,14 @@ exports.put_client = [
 
     // Middleware
     auth,
-    // Verificaciones
-    body('*')
-        .trim()
-        .escape(),
 
     body('customer_id')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid id")
+        .bail()
         .custom(async value => {
             try {
                 const user = await Customer.findOne({ where: { customer_id: value } })
@@ -76,10 +75,14 @@ exports.put_client = [
         .withMessage("Invalid query for id customer"),
 
     body('contact')
+        .trim()
+        .escape()
         .isMobilePhone()
         .withMessage("invalid phone number"),
 
     body('membership_number')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid membership number"),

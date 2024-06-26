@@ -18,34 +18,43 @@ exports.post_product = [
     // Middleware
     auth,
     // Verificaciones
-    body('*')
-        .trim()
-        .escape(),
-
     body('product_code')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid product code"),
 
     body('gen_name') // generic name
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid generic name"),
 
     body('product_name')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid product name"),
 
     body('o_price') // original price
+        .trim()
+        .escape()
         .isNumeric()
         .withMessage("invalid original price"),
 
     body('price') // price to sell
+        .trim()
+        .escape()
         .isNumeric()
         .withMessage("invalid price"),
 
     body('supplier_id') // foreign key for Supplier model
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid supplier_id")
+        .bail()
         .custom(async value => {
             try {
                 const user = await Suppliers.findOne({ where: { supplier_id: value } })
@@ -60,22 +69,30 @@ exports.post_product = [
         .withMessage("Supplier not found"),
 
     body('qty')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid qty number"),
 
     body('onhand_qty')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid onhand_qty"),
 
     body('qty_sold')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid qty_sold"),
 
     body('date_arrival')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isDate()
         .withMessage("invalid date arrival"),
 
     async function (req, res) {
@@ -96,15 +113,13 @@ exports.put_product = [
 
     // Middleware
     auth,
-    // Verificaciones
-    body('*')
-        .trim()
-        .escape(),
-
     body('product_id')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid id")
+        .bail()
         .custom(async value => {
             try {
                 const user = await Product.findOne({ where: { product_id: value } })
@@ -119,29 +134,42 @@ exports.put_product = [
         .withMessage("Invalid query for id product"),
 
     body('product_code')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid product code"),
 
     body('gen_name') // generic name
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid generic name"),
 
     body('product_name')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isAscii()
         .withMessage("invalid product name"),
 
     body('o_price') // original price
+        .trim()
+        .escape()
         .isNumeric()
         .withMessage("invalid original price"),
 
     body('price') // price to sell
+        .trim()
+        .escape()
         .isNumeric()
         .withMessage("invalid price"),
 
     body('supplier_id') // foreign key for Supplier model
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid supplier_id")
+        .bail()
         .custom(async value => {
             try {
                 const user = await Suppliers.findOne({ where: { supplier_id: value } })
@@ -156,22 +184,30 @@ exports.put_product = [
         .withMessage("Supplier not found"),
 
     body('qty')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid qty number"),
 
     body('onhand_qty')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid onhand_qty"),
 
     body('qty_sold')
+        .trim()
+        .escape()
         .toInt()
         .isInt()
         .withMessage("invalid qty_sold"),
 
     body('date_arrival')
-        .isAlphanumeric()
+        .trim()
+        .escape()
+        .isDate()
         .withMessage("invalid date arrival"),
 
     async function (req, res) {

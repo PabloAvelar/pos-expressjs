@@ -8,6 +8,6 @@ router.post("/", suppliersController.post_supplier);
 
 router.put('/', suppliersController.put_client);
 
-router.delete('/:customer_id', suppliersController.delete_client);
+router.delete('/:supplier_id', suppliersController.delete_client);
 
 module.exports = router;

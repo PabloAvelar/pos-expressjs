@@ -25,7 +25,7 @@ describe('suppliers API', () => {
     describe("POST /suppliers", () => {
         test('should insert a new supplier into the database', async () => {
             const payload = {
-                supplier_name: faker.person.fullName(),
+                supplier_name: faker.company.name(),
                 supplier_address: faker.location.streetAddress(),
                 supplier_contact: faker.string.numeric(10),
                 contact_person: faker.string.numeric(10),
@@ -40,6 +40,8 @@ describe('suppliers API', () => {
                 .set('Accept', `application/json`)
 
                 .send(payload);
+
+            console.log(payload)
             expect(response.status).toBe(200);
         })
     });
@@ -49,7 +51,7 @@ describe('suppliers API', () => {
 
             const payload = {
                 supplier_id: test_supplier_id,
-                supplier_name: faker.person.fullName(),
+                supplier_name: faker.company.name(),
                 supplier_address: faker.location.streetAddress(),
                 supplier_contact: faker.string.numeric(10),
                 contact_person: faker.string.numeric(10),
@@ -73,7 +75,7 @@ describe('suppliers API', () => {
 
             const response = await request(app)
                 // Deletes the record with the ID 36
-                .delete(`/api/suppliers/${test_supplier_id}}`)
+                .delete(`/api/suppliers/${test_supplier_id}`)
 
                 // Headers
                 .set('Authorization', `Bearer ${userToken}`)

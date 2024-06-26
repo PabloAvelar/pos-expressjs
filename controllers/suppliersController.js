@@ -22,11 +22,11 @@ exports.post_supplier = [
         .escape(),
 
     body('supplier_name')
-        .isAlpha()
+        .isAscii()
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
-        .isAlphanumeric()
+        .isAscii()
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')
@@ -66,11 +66,11 @@ exports.put_client = [
         .withMessage("invalid supplier id"),
 
     body('supplier_name')
-        .isAlpha()
+        .isAscii()
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
-        .isAlphanumeric()
+        .isAscii()
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')
