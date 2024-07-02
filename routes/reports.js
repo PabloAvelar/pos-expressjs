@@ -1,9 +1,8 @@
 const express = require('express');
+const reportsController = require('../controllers/reportsController')
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-
-})
+router.get("/", reportsController.getReports);
 
 module.exports = router;

@@ -8,7 +8,7 @@ class Sales_Order extends Model { }
 
 Sales_Order.init({
     // Table
-    transtaction_id: {
+    transaction_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -38,18 +38,8 @@ Sales_Order.init({
         type: DataTypes.STRING
     },
 
-    profit: {
-        type: DataTypes.STRING
-    },
-
-
     price: {
         type: DataTypes.STRING
-    },
-
-    discount: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     },
 
     date: {
@@ -68,13 +58,13 @@ Sales_Order.init({
 
 );
 
-Sales_Order.belongsTo(Products, {foreignKey: 'product_id'});
-Products.hasOne(Sales_Order, {foreignKey: 'product_id'});
+Sales_Order.belongsTo(Products, { foreignKey: 'product_id' });
+Sales_Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
-Sales_Order.belongsTo(Customer, {foreignKey: 'customer_id'});
+Products.hasOne(Sales_Order, {foreignKey: 'product_id'});
 Customer.hasMany(Sales_Order, {foreignKey: 'customer_id'});
 
 User.belongsTo(Sales_Order, {foreignKey: 'user_id'});
 Sales_Order.hasOne(User, {foreignKey: 'user_id'});
 
-module.exports = Products;
+module.exports = Sales_Order;
