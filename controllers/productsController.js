@@ -82,13 +82,6 @@ exports.post_product = [
         .isInt()
         .withMessage("invalid onhand_qty"),
 
-    body('qty_sold')
-        .trim()
-        .escape()
-        .toInt()
-        .isInt()
-        .withMessage("invalid qty_sold"),
-
     body('date_arrival')
         .trim()
         .escape()
@@ -104,7 +97,13 @@ exports.post_product = [
 
         const newProduct = await Product.create(data)
 
-        res.json({ message: `new product created with id: ${newProduct.product_id}` });
+        res.json(
+            {
+                message: `new product created with id: ${newProduct.product_id}`,
+                status: 'success'
+            },
+            
+        );
 
     }
 ]
@@ -196,13 +195,6 @@ exports.put_product = [
         .toInt()
         .isInt()
         .withMessage("invalid onhand_qty"),
-
-    body('qty_sold')
-        .trim()
-        .escape()
-        .toInt()
-        .isInt()
-        .withMessage("invalid qty_sold"),
 
     body('date_arrival')
         .trim()

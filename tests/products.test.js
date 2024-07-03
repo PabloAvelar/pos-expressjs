@@ -35,7 +35,6 @@ describe('Products API', () => {
                 price: faker.commerce.price({ min: 600, max: 13000 }),
                 supplier_id: test_supplier_id || 1989,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
-                qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 date_arrival: moment(faker.date.future()).format("YYYY-MM-DD"),
                 onhand_qty: faker.helpers.rangeToNumber({ min: 10, max: 90 })
             }
@@ -74,7 +73,6 @@ describe('Products API', () => {
                 price: faker.commerce.price({ min: 600, max: 13000 }),
                 supplier_id: test_supplier_id,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
-                qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 date_arrival: moment(faker.date.future()).format("YYYY-MM-DD"),
                 onhand_qty: faker.helpers.rangeToNumber({ min: 10, max: 90 })
             }

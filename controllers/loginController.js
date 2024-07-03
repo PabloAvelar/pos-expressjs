@@ -28,13 +28,13 @@ exports.login = [
             })
             console.log(user);
             if (!user) {
-                return res.status(401).json({ message: 'invalid user or password' });
+                return res.status(200).json({ message: 'invalid user or password' });
             }
 
             const hashedPassword = md5(password);
 
             if (hashedPassword !== user.password) {
-                return res.status(401).json({ message: 'invalid user or password' });
+                return res.status(200).json({ message: 'invalid user or password' });
             }
 
             const accessToken = jwt.sign({ id: user.id, username: user.username }, process.env.SECRET); //payload, secret
@@ -42,7 +42,6 @@ exports.login = [
             res.json({ accessToken, user })
 
         } catch (e) {
-
             console.error(e);
         }
 

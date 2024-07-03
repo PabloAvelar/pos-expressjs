@@ -43,10 +43,6 @@ Products.init({
         type: DataTypes.STRING
     },
 
-    qty_sold: {
-        type: DataTypes.STRING
-    },
-
     date_arrival: {
         type: DataTypes.STRING
     },
