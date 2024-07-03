@@ -16,13 +16,21 @@ exports.post_client = [
 
     // Middleware
     auth,
-
+    body('customer_name')
+        .trim()
+        .escape()
+        .isAscii()
+        .withMessage("invalid customer name"),
+    body('address')
+        .trim()
+        .escape()
+        .isAscii()
+        .withMessage("invalid address"),
     body('contact')
         .trim()
         .escape()
         .isMobilePhone()
         .withMessage("invalid phone number"),
-
     body('membership_number')
         .trim()
         .escape()
@@ -35,16 +43,11 @@ exports.post_client = [
 
         if (errors.length > 0) return res.status(400).json({ message: 'errors!', errors });
 
-        const { customer_name, address, contact, membership_number } = matchedData(req);
+        const data = matchedData(req);
 
-        const newCustomer = await Customer.create({
-            customer_name,
-            address,
-            contact,
-            membership_number
-        })
+        const newCustomer = await Customer.create(data)
 
-        res.json({ message: `new customer created with id: ${newCustomer.customer_id}` });
+        res.status(200).json({ message: `new customer created with id: ${newCustomer.customer_id}` });
 
     }
 ]
@@ -53,7 +56,16 @@ exports.put_client = [
 
     // Middleware
     auth,
-
+    body('customer_name')
+        .trim()
+        .escape()
+        .isAscii()
+        .withMessage("invalid customer name"),
+    body('address')
+        .trim()
+        .escape()
+        .isAscii()
+        .withMessage("invalid address"),
     body('customer_id')
         .trim()
         .escape()

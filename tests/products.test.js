@@ -15,8 +15,8 @@ describe('Products API', () => {
                 .set("Authorization", `Bearer ${userToken}`);
             // saving one record to be tested in the following cases
             response_record = response.body;
-            test_product_id = response_record[0].product_id;
-            test_supplier_id = response_record[0].supplier_id;
+            test_product_id = response_record[0]?.product_id;
+            test_supplier_id = response_record[0]?.supplier_id;
             expect(response.status).toBe(200);
             expect(response.body).toBeInstanceOf(Array);
 
@@ -33,12 +33,19 @@ describe('Products API', () => {
                 product_name: faker.commerce.productName(),
                 o_price: faker.commerce.price({ min: 100, max: 500 }),
                 price: faker.commerce.price({ min: 600, max: 13000 }),
-                supplier_id: test_supplier_id,
+                supplier_id: test_supplier_id || 1989,
                 qty: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 qty_sold: faker.helpers.rangeToNumber({ min: 10, max: 90 }),
                 date_arrival: moment(faker.date.future()).format("YYYY-MM-DD"),
                 onhand_qty: faker.helpers.rangeToNumber({ min: 10, max: 90 })
             }
+
+            // If there's no products in database for the following test cases
+            // then a manual id will be inserted in this new record
+            if (test_product_id === undefined){
+                payload['product_id'], test_product_id = 1989
+            }
+
             const response = await request(app)
                 .post('/api/products')
 
