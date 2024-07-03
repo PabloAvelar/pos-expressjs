@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const cors = require('cors');
 require('dotenv').config();
 
 const clientsRouter = require('./routes/clients');
@@ -13,6 +14,7 @@ const loginRouter = require('./routes/login');
 
 const app = express();
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.text());

@@ -64,7 +64,6 @@ Sales_Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 Products.hasOne(Sales_Order, {foreignKey: 'product_id'});
 Customer.hasMany(Sales_Order, {foreignKey: 'customer_id'});
 
-User.belongsTo(Sales_Order, {foreignKey: 'user_id'});
-Sales_Order.hasOne(User, {foreignKey: 'user_id'});
+Sales_Order.hasOne(User, {foreignKey: 'id'});
 
 module.exports = Sales_Order;

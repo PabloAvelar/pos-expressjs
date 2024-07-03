@@ -24,9 +24,9 @@ exports.login = [
         try {
             const { username, password } = req.body;
             const user = await User.findOne({
-                where: { username }
+                where: { username: username }
             })
-            
+            console.log(user);
             if (!user) {
                 return res.status(401).json({ message: 'invalid user or password' });
             }
