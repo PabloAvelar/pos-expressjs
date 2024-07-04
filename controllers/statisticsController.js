@@ -77,6 +77,13 @@ exports.getProductsSold = [
                     ]
                 ],
 
+                include: [
+                    {
+                        model: SalesOrder,
+                        required: true
+                    }
+                ],
+
                 group: 'product_id',
                 order: [['total_records', 'DESC']]
             })

@@ -3,6 +3,8 @@ const { validationResult, matchedData, body } = require('express-validator');
 const auth = require('../middlewares/auth');
 const Suppliers = require('../models/Supplier');
 const Customer = require('../models/Customer');
+const Products = require('../models/Product');
+const User = require('../models/User');
 
 exports.get_sales = [
     auth,
@@ -27,13 +29,32 @@ exports.post_sale = [
         .bail()
         .custom(async value => {
             try {
-                const id_found = await SalesOrder.findOne({ where: { product_id: value } })
+                const id_found = await Products.findOne({ where: { product_id: value } })
                 if (id_found === null) {
                     return Promise.reject("Product ID does not exist");
                 }
             } catch (e) {
                 console.error(e);
                 return Promise.reject("Couldn't find product");
+            }
+        }),
+
+    body('user_id')
+        .trim()
+        .escape()
+        .toInt()
+        .isInt()
+        .withMessage("invalid user id")
+        .bail()
+        .custom(async value => {
+            try {
+                const id_found = await User.findOne({ where: { id: value } })
+                if (id_found === null) {
+                    return Promise.reject("User ID does not exist");
+                }
+            } catch (e) {
+                console.error(e);
+                return Promise.reject("Couldn't find user");
             }
         }),
 
@@ -54,26 +75,6 @@ exports.post_sale = [
         .escape()
         .isNumeric()
         .withMessage("invalid price"),
-
-    body('supplier_id') // foreign key for Supplier model
-        .trim()
-        .escape()
-        .toInt()
-        .isInt()
-        .withMessage("invalid supplier_id")
-        .bail()
-        .custom(async value => {
-            try {
-                const id_found = await Suppliers.findOne({ where: { supplier_id: value } })
-                if (id_found === null) {
-                    return Promise.reject("Supplier ID does not exist")
-                }
-            } catch (e) {
-                console.error(e);
-                return Promise.reject("Couldn't find supplier")
-            }
-        })
-        .withMessage("Supplier not found"),
 
     body('qty')
         .trim()
@@ -154,13 +155,32 @@ exports.put_sale = [
         .bail()
         .custom(async value => {
             try {
-                const id_found = await SalesOrder.findOne({ where: { product_id: value } })
+                const id_found = await Products.findOne({ where: { product_id: value } })
                 if (id_found === null) {
                     return Promise.reject("Product ID does not exist");
                 }
             } catch (e) {
                 console.error(e);
                 return Promise.reject("Couldn't find product");
+            }
+        }),
+
+    body('user_id')
+        .trim()
+        .escape()
+        .toInt()
+        .isInt()
+        .withMessage("invalid user id")
+        .bail()
+        .custom(async value => {
+            try {
+                const id_found = await User.findOne({ where: { id: value } })
+                if (id_found === null) {
+                    return Promise.reject("User ID does not exist");
+                }
+            } catch (e) {
+                console.error(e);
+                return Promise.reject("Couldn't find user");
             }
         }),
 
@@ -181,26 +201,6 @@ exports.put_sale = [
         .escape()
         .isNumeric()
         .withMessage("invalid price"),
-
-    body('supplier_id') // foreign key for Supplier model
-        .trim()
-        .escape()
-        .toInt()
-        .isInt()
-        .withMessage("invalid supplier_id")
-        .bail()
-        .custom(async value => {
-            try {
-                const id_found = await Suppliers.findOne({ where: { supplier_id: value } })
-                if (id_found === null) {
-                    return Promise.reject("Supplier ID does not exist")
-                }
-            } catch (e) {
-                console.error(e);
-                return Promise.reject("Couldn't find supplier")
-            }
-        })
-        .withMessage("Supplier not found"),
 
     body('qty')
         .trim()
