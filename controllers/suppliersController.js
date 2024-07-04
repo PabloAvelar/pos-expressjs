@@ -23,12 +23,12 @@ exports.post_supplier = [
 
     body('supplier_name')
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')
@@ -36,7 +36,8 @@ exports.post_supplier = [
         .withMessage("invalid supplier contact"),
 
     body('contact_person')
-        .isNumeric()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid contact person"),
 
     async function (req, res) {
@@ -48,7 +49,12 @@ exports.post_supplier = [
 
         const newCustomer = await Supplier.create(data)
 
-        res.json({ message: `new supplier created with id: ${newCustomer.supplier_id}` });
+        res.status(200).json(
+            {
+                message: `new supplier created with id: ${newCustomer.supplier_id}`,
+                status: 'success'
+            }
+        );
 
     }
 ]
@@ -69,12 +75,12 @@ exports.put_client = [
 
     body('supplier_name')
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')
@@ -82,7 +88,8 @@ exports.put_client = [
         .withMessage("invalid supplier contact"),
 
     body('contact_person')
-        .isNumeric()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid contact person"),
 
     async function (req, res) {
@@ -96,7 +103,12 @@ exports.put_client = [
             where: { supplier_id }
         })
 
-        res.json({ message: `supplier updated with id: ${supplier_id}` });
+        res.status(200).json(
+            {
+                message: `supplier updated with id: ${supplier_id}`,
+                status: 'success'
+            }
+        );
 
     }
 ]
@@ -118,6 +130,6 @@ exports.delete_client = [
             where: { supplier_id }
         })
 
-        res.json({ message: `customer deleted with id: ${supplier_id}` });
+        res.status(200).json({ message: `customer deleted with id: ${supplier_id}` });
     }
 ]

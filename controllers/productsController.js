@@ -28,14 +28,14 @@ exports.post_product = [
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid generic name"),
 
     body('product_name')
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid product name"),
 
     body('o_price') // original price
@@ -144,14 +144,14 @@ exports.put_product = [
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid generic name"),
 
     body('product_name')
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid product name"),
 
     body('o_price') // original price

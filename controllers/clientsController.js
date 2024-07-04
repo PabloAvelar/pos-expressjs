@@ -20,13 +20,13 @@ exports.post_client = [
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid customer name"),
     body('address')
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid address"),
     body('contact')
         .trim()
@@ -67,13 +67,13 @@ exports.put_client = [
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid customer name"),
     body('address')
         .trim()
         .escape()
         .isString()
-        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
+        .matches(/^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.-]+$/)
         .withMessage("invalid address"),
     body('customer_id')
         .trim()
