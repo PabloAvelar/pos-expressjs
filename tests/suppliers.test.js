@@ -28,7 +28,7 @@ describe('suppliers API', () => {
                 supplier_name: faker.company.name(),
                 supplier_address: faker.location.streetAddress(),
                 supplier_contact: faker.string.numeric(10),
-                contact_person: faker.string.numeric(10),
+                contact_person: faker.person.fullName(),
                 note: faker.word.words()
             }
             const response = await request(app)
@@ -54,7 +54,7 @@ describe('suppliers API', () => {
                 supplier_name: faker.company.name(),
                 supplier_address: faker.location.streetAddress(),
                 supplier_contact: faker.string.numeric(10),
-                contact_person: faker.string.numeric(10),
+                contact_person: faker.person.fullName(),
                 note: faker.word.words()
             }
             const response = await request(app)
