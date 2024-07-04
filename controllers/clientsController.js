@@ -146,6 +146,11 @@ exports.delete_client = [
             where: { customer_id }
         })
 
-        res.json({ message: `customer deleted with id: ${customer_id}` });
+        res.status(200).json(
+            {
+                message: `customer deleted with id: ${customer_id}`,
+                status: 'success'
+            }
+        );
     }
 ]

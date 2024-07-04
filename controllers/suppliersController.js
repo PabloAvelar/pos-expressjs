@@ -130,6 +130,11 @@ exports.delete_client = [
             where: { supplier_id }
         })
 
-        res.status(200).json({ message: `customer deleted with id: ${supplier_id}` });
+        res.status(200).json(
+            {
+                message: `supplier deleted with id: ${supplier_id}`,
+                status: 'success'
+            }
+        );
     }
 ]

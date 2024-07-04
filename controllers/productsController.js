@@ -7,7 +7,17 @@ exports.get_products = [
     auth,
 
     async function (req, res) {
-        const products = await Product.findAll();
+        const products = await Product.findAll(
+            {
+                include: {
+                    model: Suppliers,
+                    required: true,
+                    attributes: ['supplier_name']
+                },
+
+                order: [['product_id', 'DESC']]
+            }
+        );
 
         return res.status(200).json(products);
     }
@@ -99,7 +109,7 @@ exports.post_product = [
 
         const newProduct = await Product.create(data)
 
-        res.json(
+        res.status(200).json(
             {
                 message: `new product created with id: ${newProduct.product_id}`,
                 status: 'success'
@@ -217,7 +227,12 @@ exports.put_product = [
             where: { product_id }
         })
 
-        res.json({ message: `product updated with id: ${product_id}` });
+        res.status(200).json(
+            {
+                message: `product updated with id: ${product_id}`,
+                status: 'success'
+            }
+        );
 
     }
 ]
