@@ -22,11 +22,13 @@ exports.post_supplier = [
         .escape(),
 
     body('supplier_name')
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')
@@ -66,11 +68,13 @@ exports.put_client = [
         .withMessage("invalid supplier id"),
 
     body('supplier_name')
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid supplier name"),
 
     body('supplier_address')
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid supplier address"),
 
     body('supplier_contact')

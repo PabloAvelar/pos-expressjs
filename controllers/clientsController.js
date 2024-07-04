@@ -19,12 +19,14 @@ exports.post_client = [
     body('customer_name')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid customer name"),
     body('address')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid address"),
     body('contact')
         .trim()
@@ -47,7 +49,12 @@ exports.post_client = [
 
         const newCustomer = await Customer.create(data)
 
-        res.status(200).json({ message: `new customer created with id: ${newCustomer.customer_id}` });
+        res.status(200).json(
+            {
+                message: `new customer created with id: ${newCustomer.customer_id}`,
+                status: 'success'
+            }
+        );
 
     }
 ]
@@ -59,12 +66,14 @@ exports.put_client = [
     body('customer_name')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid customer name"),
     body('address')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid address"),
     body('customer_id')
         .trim()
@@ -110,7 +119,12 @@ exports.put_client = [
             where: { customer_id }
         })
 
-        res.json({ message: `customer updated with id: ${customer_id}` });
+        res.status(200).json(
+            {
+                message: `customer updated with id: ${customer_id}`,
+                status: 'success'
+            }
+        );
 
     }
 ]

@@ -27,13 +27,15 @@ exports.post_product = [
     body('gen_name') // generic name
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid generic name"),
 
     body('product_name')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid product name"),
 
     body('o_price') // original price
@@ -102,7 +104,7 @@ exports.post_product = [
                 message: `new product created with id: ${newProduct.product_id}`,
                 status: 'success'
             },
-            
+
         );
 
     }
@@ -141,13 +143,15 @@ exports.put_product = [
     body('gen_name') // generic name
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid generic name"),
 
     body('product_name')
         .trim()
         .escape()
-        .isAscii()
+        .isString()
+        .matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/)
         .withMessage("invalid product name"),
 
     body('o_price') // original price
